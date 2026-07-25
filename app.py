@@ -142,7 +142,22 @@ def admin_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
-# -------------------------
+
+@app.route("/setup-admin")
+def setup_admin():
+
+    email = "adityasuryawanshi0000@gmail.com"
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        return "Register this email first.", 404
+
+    user.is_admin = True
+    db.session.commit()
+
+    return "Admin access granted."
+
 # Helper functions
 # -------------------------
 

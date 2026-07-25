@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Cart - ApnaKart</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a href="/" class="navbar-brand fw-bold">
+            🛒 ApnaKart
+        </a>
+
+        <a href="/" class="btn btn-outline-light">
+            Continue Shopping
+        </a>
+
+    </div>
+
+</nav>
+
+<div class="container mt-5">
+
+    <h1 class="mb-4">
+        My Cart
+    </h1>
+
+    {% if cart_items %}
+
+        {% for item in cart_items %}
+
+        <div class="card shadow mb-4">
+
+            <div class="row g-0 align-items-center">
+
+                <div class="col-md-3 text-center p-3">
+
+                    <img
+                        src="{{ url_for('static', filename='images/' + item.product.image) }}"
+                        class="img-fluid rounded"
+                        style="height:180px;width:180px;object-fit:cover;">
+
+                </div>
+
+                <div class="col-md-5">
+
+                    <div class="card-body">
+
+                        <h3>{{ item.product.name }}</h3>
+
+                        <p>{{ item.product.description }}</p>
+
+                        <h5>Price: ₹{{ item.product.price }}</h5>
+
+                        <h5>Subtotal: ₹{{ item.subtotal }}</h5>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 text-center">
+
+                    <h5 class="mt-3">Quantity</h5>
+
+                    <div class="d-flex justify-content-center align-items-center my-3">
+
+                        <a
+                            href="{{ url_for('decrease_quantity', product_id=item.product.id) }}"
+                            class="btn btn-outline-dark">
+
+                            -
+
+                        </a>
+
+                        <span class="mx-4 fs-4">
+
+                            {{ item.quantity }}
+
+                        </span>
+
+                        <a
+                            href="{{ url_for('increase_quantity', product_id=item.product.id) }}"
+                            class="btn btn-outline-dark">
+
+                            +
+
+                        </a>
+
+                    </div>
+
+                    <a
+                        href="{{ url_for('remove_from_cart', product_id=item.product.id) }}"
+                        class="btn btn-danger">
+
+                        Remove
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <div class="card p-4 shadow">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h2>Total: ₹{{ total }}</h2>
+
+                <a
+                    href="/checkout"
+                    class="btn btn-success btn-lg">
+
+                    Checkout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info text-center">
+
+            <h3>Your cart is empty.</h3>
+
+            <a
+                href="/"
+                class="btn btn-primary mt-3">
+
+                Continue Shopping
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
